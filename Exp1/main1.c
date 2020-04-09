@@ -8,7 +8,6 @@ typedef struct node{
 }StudentLinkedListNode;
 
 
-/* 锟斤拷印锟斤拷锟斤拷锟节碉拷 */
 void printLinkedListNode(StudentLinkedListNode * node){
     printf("{class:%d, ID:%d, Grade:%d}",node->ClassID, node->StuID, node->Grade);
     if(node->next!=NULL){
@@ -20,11 +19,7 @@ void printLinkedListNode(StudentLinkedListNode * node){
 
 }
 
-/* 锟斤拷锟斤拷帽锟斤拷某杉锟斤拷锟斤拷 */
 void outputStudentLinkedList(StudentLinkedListNode* head){
-    // 锟斤拷锟节碉拷锟斤拷锟节碉拷锟斤拷锟斤拷暮锟斤拷锟絧rintLinkedListNode锟斤拷锟结供
-    //锟斤拷锟斤拷实锟街憋拷锟斤拷锟斤拷锟斤拷锟斤拷锟竭硷拷
-	//TODO
     // (begin whsu, 2020.04.03)
     if (!head || !head->next) return;
     StudentLinkedListNode *iter = head->next;
@@ -36,10 +31,7 @@ void outputStudentLinkedList(StudentLinkedListNode* head){
 }
 
 
-/** 锟铰斤拷一锟斤拷锟斤拷锟斤拷node锟斤拷锟斤拷锟斤拷 */
 StudentLinkedListNode* studentLinkedListCreate( int class_id,int student_id,int grade) {
-    //tips:malloc锟斤拷时锟斤拷堑锟轿?转锟斤拷为锟结构锟斤拷指锟斤拷
-	//TODO
     // (begin whsu, 2020.04.03)
     StudentLinkedListNode *tmp = (StudentLinkedListNode*)malloc(sizeof(StudentLinkedListNode));
     if (tmp) {
@@ -52,7 +44,6 @@ StudentLinkedListNode* studentLinkedListCreate( int class_id,int student_id,int 
     // (end whsu, 2020.04.03)
 }
 
-/** copy一锟斤拷锟斤拷锟叫碉拷node */
 StudentLinkedListNode* studentLinkedListCopy(StudentLinkedListNode* src){
     StudentLinkedListNode* tempNode = studentLinkedListCreate(src->ClassID,src->StuID,src->Grade);
     return tempNode;
@@ -60,36 +51,28 @@ StudentLinkedListNode* studentLinkedListCopy(StudentLinkedListNode* src){
 
 
 
-/** 锟斤拷锟秸斤拷锟斤拷锟斤拷锟窖э拷锟斤拷某杉锟斤拷锟斤拷,锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷头指锟斤拷 */
 StudentLinkedListNode* studentLinkedListAdd(StudentLinkedListNode* head, StudentLinkedListNode* node) {
-//TODO
     // (begin whsu, 2020.04.03)
 
     // the head only stores ClassID, both StuID and Grade will be set to -1
-    if (head==NULL) {
-        head = studentLinkedListCreate(node->ClassID, -1, -1);
-        head->next = node;
-        node->next = NULL;
-    } else {
-        StudentLinkedListNode *iter = head;
-        while (iter->next) {
-            if (iter->next->Grade<node->Grade) break;
-            else iter = iter->next; 
-        }
-
-        // insertion 
-        // iter -> nextnode
-        //      ^ insert here
-        StudentLinkedListNode *nxt = iter->next;
-        iter->next = node;
-        node->next = nxt;
+    if (head==NULL) head = studentLinkedListCreate(node->ClassID, -1, -1);
+    StudentLinkedListNode *iter = head;
+    while (iter->next) {
+        if (iter->next->Grade<node->Grade) break;
+        else iter = iter->next;
     }
+
+    // insertion
+    // iter -> nextnode
+    //      ^ insert here
+    StudentLinkedListNode *nxt = iter->next;
+    iter->next = node;
+    node->next = nxt;
 
     return head;
     // (end whsu, 2020.04.03)
 }
 
-/** 锟斤拷锟斤拷学锟斤拷锟斤拷锟斤拷某锟斤拷学锟斤拷锟侥成硷拷锟斤拷锟? 锟斤拷锟矫伙拷锟?,锟斤拷printf("this class  has no such student as id=%d",id)锟斤拷 */
 void searchByID(StudentLinkedListNode*head ,int id){
 //TODO
     // (begin whsu, 2020.04.03)
@@ -98,6 +81,11 @@ void searchByID(StudentLinkedListNode*head ,int id){
         while (iter) {
             if (iter->StuID==id) {
                 printLinkedListNode(iter);
+
+                // (modify whsu, 2020.04.04) prettify
+                if (iter->next!=NULL) printf("\b\b  \n");  // remove "->" and start newline in the back
+                // (end whsu, 2020.04.04)
+
                 return;  // return if found, avoid showing the error message
             } else {
                 iter = iter->next;
@@ -106,14 +94,12 @@ void searchByID(StudentLinkedListNode*head ,int id){
     }
 
     // fixed duplicated whitespace
-    printf("this class has no such student as id=%d",id);
+    printf("this class has no such student as id=%d\n",id);
 
     // (end whsu, 2020.04.03)
 }
 
-/** 锟斤拷锟斤拷学锟斤拷删锟斤拷某锟斤拷学锟斤拷锟侥成硷拷锟斤拷锟? 锟斤拷锟矫伙拷锟?,锟斤拷printf("this class has no such student as id=%d",id);*/
 StudentLinkedListNode* deleteByID(StudentLinkedListNode* head,int id){
-//TODO
     // (begin whsu, 2020.04.03)
     if (head && head->next) {  // uses short circuit to avoid empty head
         StudentLinkedListNode *iter = head;
@@ -138,50 +124,108 @@ StudentLinkedListNode* deleteByID(StudentLinkedListNode* head,int id){
 }
 
 
-/** 锟较诧拷锟斤拷锟斤拷锟洁级锟侥成硷拷锟斤拷锟? */
 StudentLinkedListNode* mergeLinkedList(StudentLinkedListNode* heads[]){
-    //tips:锟斤拷为锟斤拷锟斤拷亩锟斤拷锟街革拷锟?,为锟剿凤拷止锟斤拷止锟斤拷锟斤拷锟接帮拷锟斤拷锟皆?锟斤拷锟斤拷锟斤拷锟斤拷锟侥存储,
-    //锟斤拷锟斤拷锟斤拷node锟斤拷值锟斤拷时锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷峁╋拷锟絪tudentLinkedListCopy锟斤拷锟斤拷
-    //锟斤拷 node->next = temp_node 锟斤拷为 node->next = studentLinkedListCopy(temp_node)
-	//TODO
+    // (begin whsu, 2020.04.03)
+    StudentLinkedListNode *merged = studentLinkedListCreate(-1, -1, -1);
+    StudentLinkedListNode *iter0 = heads[0], *iter1 = heads[1], *merged_iter = merged;
+
+    if (iter0) iter0 = iter0->next;
+    if (iter1) iter1 = iter1->next;
+
+    while (iter0 && iter1) {
+        if (iter0->Grade < iter1->Grade) {
+            merged_iter->next = studentLinkedListCopy(iter1);
+            iter1 = iter1->next;
+        }
+        else {
+            merged_iter->next = studentLinkedListCopy(iter0);
+            iter0 = iter0->next;
+        }
+
+        merged_iter = merged_iter->next;
+    }
+
+    while (iter0) {
+        merged_iter->next = studentLinkedListCopy(iter0);
+        merged_iter = merged_iter->next, iter0 = iter0->next;
+    }
+    while (iter1) {
+        merged_iter->next = studentLinkedListCopy(iter1);
+        merged_iter = merged_iter->next, iter1 = iter1->next;
+    }
+
+    return merged;
+    // (end whsu, 2020.04.03)
 }
 
 StudentLinkedListNode* reverseLinkedList(StudentLinkedListNode*head){
-//TODO
+    // (begin whsu, 2020.04.03)
+
+    StudentLinkedListNode *reversed = studentLinkedListCreate(-1, -1, -1);
+    StudentLinkedListNode *original_iter = head;
+
+    if (original_iter) original_iter = original_iter->next;
+
+    while (original_iter) {
+        StudentLinkedListNode *nxt = reversed->next;
+        reversed->next = studentLinkedListCopy(original_iter);
+        reversed->next->next = nxt;
+
+        original_iter = original_iter->next;
+    }
+
+    return reversed;
+    // (end whsu, 2020.04.03)
+}
+
+// Why there's a lack of concern about SERCURITY ???
+// Why there's a lack of concern about SERCURITY ???
+// Why there's a lack of concern about SERCURITY ???
+StudentLinkedListNode *FreeLinkNode(StudentLinkedListNode *head) {
+     while (head) {
+        StudentLinkedListNode *del = head;
+        head = head->next;
+        free(del);
+    }
+    return NULL;
 }
 
 int main(){
         StudentLinkedListNode* Class[2]={NULL};
         StudentLinkedListNode* All=NULL;  // merged list
 		StudentLinkedListNode* reAll=NULL;  // reversed
-        printf("\
-        1.insert \
-        2.search by StuID \
-        3.delete by StuID  \
-        4.merge \
-        5.reverse \
-        6.output  \
-        \n");
+        printf("1.insert 2.search by StuID 3.delete by StuID  4.merge 5.reverse 6.output  \n");
 
         int op;
         int i;
-		
-        /* temporary input */
+
+        /* temporary inputs */
         int tempClass;
         int tempStuId;
         int tempGrade;
         char name[10];
         StudentLinkedListNode *tempNode;
-        while (scanf("%d", &op) != EOF) {
+
+        // (modify whsu, 2020.04.04) robust
+        int cmd_success = 0;
+        while ((cmd_success=scanf("%d", &op)) != EOF) {
+            if (!cmd_success) op = -1;
+        // (end whsu, 2020.04.04)
+
             switch (op) {
                 case 1:
                     printf("How many rows of data do you need to input?\n");
-                    // (modify whsu, 2020.04.03)  // robust
+
+                    // (modify whsu, 2020.04.03) robust
                     while(!scanf("%d",&i)) while(getchar()!='\n');
                     // (end whsu, 2020.04.03)
+
                     printf("input the i row data format as:class_id,student_id,grade\n");
-                    while (i!=0){
-                        // (modify whsu, 2020.04.03)  // robust
+                    // (modified whsu, 2020.04.04) robust
+                    while (i>0){  // original condition is (i!=0), what if user enters a negative number?
+                    // (end whsu, 2020.04.04)
+
+                        // (modify whsu, 2020.04.03) robust
                         while (scanf("%d,%d,%d", &tempClass, &tempStuId, &tempGrade)!=3) {
                             printf("BAD FORMAT!\n");
                             printf("RE-input the data formatted as:class_id,student_id,grade\n");
@@ -191,7 +235,8 @@ int main(){
                             printf("Bad class_id, input class_id again\n");
                             scanf("%d", &tempClass);
                         }
-                        // (end whsu, 2020.04.03)  // will fix remaining robust problem in the next updates
+                        // (end whsu, 2020.04.03)  will fix remaining robust problem in the next updates
+
                         tempNode = studentLinkedListCreate(tempClass, tempStuId, tempGrade);
                         Class[tempClass]=studentLinkedListAdd(Class[tempClass], tempNode);
                         i--;
@@ -199,21 +244,56 @@ int main(){
                     break;
                 case 2:
                     printf("input the data format as: ClassID, StuID\n");
-                    scanf("%d,%d",&tempClass, &tempStuId);
+
+                    // (modify whsu, 2020.04.04) robust
+                    while (scanf("%d,%d",&tempClass,&tempStuId)!=2) {
+                        printf("BAD FORMAT!\n");
+                        printf("RE-input the data formatted as:class_id,student_id\n");
+                        while (getchar()!='\n');
+                    }
+                    while (tempClass<0 || 1<tempClass) {
+                        printf("Bad class_id, input class_id again\n");
+                        scanf("%d", &tempClass);
+                    }
+                    // (end whsu, 2020.04.04)
+
                     searchByID(Class[tempClass], tempStuId);
                     break;
                 case 3:
                     printf("input the data format as: ClassID, StuID\n");
-                    scanf("%d,%d",&tempClass,&tempStuId);
+
+                    // (modify whsu, 2020.04.03) robust
+                    while (scanf("%d,%d",&tempClass,&tempStuId)!=2) {
+                        printf("BAD FORMAT!\n");
+                        printf("RE-input the data formatted as:class_id,student_id\n");
+                        while (getchar()!='\n');
+                    }
+                    while (tempClass<0 || 1<tempClass) {
+                        printf("Bad class_id, input class_id again\n");
+                        scanf("%d", &tempClass);
+                    }
+                    // (end whsu, 2020.04.03)
+
                     Class[tempClass]=deleteByID(Class[tempClass], tempStuId);
                     break;
                 case 4:
                     All=mergeLinkedList(Class);
                     outputStudentLinkedList(All);
+
+                    // (modify whsu, 2020.04.03) security
+                    All = FreeLinkNode(All);
+                    // (end whsu, 2020.04.03)
                     break;
                 case 5:
-                    reAll=reverseLinkedList(All);
+                    // (modify whsu, 2020.04.03) security && robust
+                    if (All) reAll=reverseLinkedList(All);
+                    else reAll = reverseLinkedList(All = mergeLinkedList(Class));
+
                     outputStudentLinkedList(reAll);
+
+                    All = FreeLinkNode(All);
+                    reAll = FreeLinkNode(reAll);
+                    // (end whsu, 2020.04.03)
                     break;
                 case 6:
                     printf("Class 0:\n");
@@ -221,9 +301,20 @@ int main(){
                     printf("\nClass 1:\n");
                     outputStudentLinkedList(Class[1]);
                     break;
-
+                
+                // (modify whsu, 2020.04.04) robust
+                default:
+                    printf("invalid command!\nTip:\nOn Unix-like systems, input Ctrl-d to exit.\nOn Windows, input Ctrl-z to exit.\n");
+                    while (getchar()!='\n');
+                    break;
+                // (end whsu, 2020.04.04)
             }
             printf("\n###################################\n");
             printf("1.insert 2.search by studentID 3.delete by studentID 4.merge 5. reverse 6.output  \n");
     }
+
+    // security concerns
+    for (int i=0 ; i<2 ; i++) Class[i] = FreeLinkNode(Class[i]);
+    // return 0 as a habit
+    return 0;
 }
