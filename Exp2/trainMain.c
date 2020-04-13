@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// meta: partly fixed indents
+// meta: partly fixed indents and whitespaces
 // meta: slightly changed capitalized variable name "StackNode::Next" -> "StackNode::next"
 
 typedef struct StackNode{
@@ -135,89 +135,182 @@ int SeqLegal(int in[],int out[],int num){
     // end: whsu 2020.04.10
 }
 
+
 typedef struct QueueNode{
     /** 队列节点 */
     int id;
     struct QueueNode* next;
+
+    // begin: whsu 2020.04.10
+    // comment: change to double-linked list
+    struct QueueNode* prev;
+    // end: whsu 2020.04.10
+
 }QueueNode;
+
+// begin: whsu 2020.04.10
+QueueNode *newQueueNode(int new_id, QueueNode *new_prev) {
+    QueueNode *newNode = (QueueNode*)malloc(sizeof(QueueNode));
+    newNode->id = new_id;
+    newNode->next = NULL;
+    newNode->prev = new_prev;
+
+    return newNode;
+}
+// end: whsu 2020.04.10
 
 typedef struct Queue{
     /** 队列 */
-    QueueNode *front;
+    QueueNode *head;
     QueueNode *rear;
-    int size;
 }LinkQueue;
+
+// begin: whsu 2020.04.10
+// comment: let it be more c++!
 
 LinkQueue* InitQueue(){
     /** 初始化队列 */
-    LinkQueue* linkQueue = (LinkQueue*) malloc(sizeof(LinkQueue));
-    linkQueue->front = linkQueue->rear = (QueueNode *)malloc(sizeof(QueueNode));
-    linkQueue->front->next = NULL;
-    linkQueue -> size = 0;
-    return linkQueue;
+    LinkQueue* thisQueue = (LinkQueue*) malloc(sizeof(LinkQueue));
+
+    // begin: whsu 2020.04.10
+    // comment: "with head node" style
+    thisQueue->head = thisQueue->rear = newQueueNode(-1, NULL);
+    // end: whsu 2020.04.10
+
+    return thisQueue;
 }
 
-int QueueEmpty(LinkQueue* linkQueue){
+int QueueEmpty(LinkQueue* thisQueue){
     /** 判断队列是否为空 */
-    return (linkQueue->front == linkQueue->rear);
+
+    // begin: whsu 2020.04.10
+    // comment: a compatible function!
+    // end: whsu 2020.04.10
+
+    return (thisQueue->head == thisQueue->rear);
 }
 
-int EnQueue(LinkQueue *linkQueue,int ele){
+int EnQueue(LinkQueue *thisQueue,int ele){
     /** 入队 */
-    return 1;//可删除
+
+    // begin: whsu 2020.04.10
+    QueueNode *newRear = newQueueNode(ele, thisQueue->rear);
+
+    if (!newRear) return 0;  // else
+
+    thisQueue->rear->next = newRear;
+    thisQueue->rear = newRear;
+    return 1;
+    // end: whsu 2020.04.10
 }
 
-int DeQueue(LinkQueue *linkQueue,int* ele){
-    /** 出队 */
-    return 1;//可删除
+// begin: whsu 2020.04.10
+// comment: (personal opinion) no need to return the top element when dequeuing 
+//          use GetHead() instead
+int DeQueue(LinkQueue *thisQueue){
+// end: whsu 2020.04.10
+    // begin: whsu 2020.04.10
+    if (QueueEmpty(thisQueue)) return 0;  // else
+
+    QueueNode *del = thisQueue->head->next;
+
+    if (del==thisQueue->rear) thisQueue->rear = thisQueue->head;
+    else del->next->prev = thisQueue->head;
+
+    thisQueue->head->next = del->next;
+    free(del);
+
+    return 1;
+    // end: whsu 2020.04.10
 }
 
-int QueueLength(LinkQueue *linkQueue){
-    /** 队列长度 */
-    return 1;//可删除
+// begin: whsu 2020.04.10
+// comment: deleted QueueLength
+// end: whsu 2020.04.10
+
+int GetFront(LinkQueue *thisQueue){
+    // begin: whsu 2020.04.10
+    return QueueEmpty(thisQueue) ? 0x7f7f7f7f : thisQueue->head->next->id;
+    // end: whsu 2020.04.10
 }
 
-int GetHead(LinkQueue *linkQueue,int* ele){
-    /** 返回队头 */
-    return 1;//可删除
-}
-
-int GetRear(LinkQueue *linkQueue,int *ele){
-    /** 返回队尾 */
-    return 1;//可删除
+int GetRear(LinkQueue *thisQueue){
+    // begin: whsu 2020.04.10
+    return QueueEmpty(thisQueue) ? 0x7f7f7f7f : thisQueue->rear->id;
+    // end: whsu 2020.04.10
 }
 
 
-int findClosestQueue(LinkQueue *railQueue[],int usedQueue,int curTrain){
+int findClosestQueue(LinkQueue *railQueue[],int usedQueue,int curTrain, int num){
     /**  找到最合适的火车轨道 */
     // Tips：请考虑如若找不到的情况
     int closestIdx = -1;
+
+    // begin: whsu 2020.04.10
+    int queue_max_rear = -1;  // compatible for 
+    for (int i=0 ; i<usedQueue ; i++) {
+        // empty queue is the least-concerned result
+        if (QueueEmpty(railQueue[i])) {
+                if (closestIdx==-1) {
+                closestIdx = i;
+                queue_max_rear = 0;  // the smallest
+            }
+        }
+        // the larger the rear, the better
+        else if (queue_max_rear<GetRear(railQueue[i]) && GetRear(railQueue[i])<curTrain) {
+            closestIdx = i;
+            queue_max_rear = GetRear(railQueue[i]);
+        }
+    }
     
-    /** 寻找最合适的火车轨道  */
-    //Tips：每个队列中后边的元素要大于前边的元素
-    
-    // Todo
+    // if haven't found a closest queue, then return -1 to call for a new buffer queue
+
+    // end: whsu 2020.04.10
     
     return closestIdx;
 }
 
+// end: whsu 2020.04.10
+
 int minBufferQueue(int out[],int num){
     /** 实验内容2:求解所需缓冲轨道的最小值*/
     LinkQueue *railQueue[num]; //指针数组，记录各缓存轨道的火车，有与火车数相等的轨道数时一定可行
-    for(int i = 0;i < num;i++){
-        railQueue[i] = InitQueue();
-    }
+
     int usedQueue = 0;      //已使用的队列数
-    int arrangedTrain = 0;  //已安排的火车
-    
-    /**
-     当火车未完全安排完时
-     从其中找到最合适放置的轨道
-     放置火车
-     */
-    
-    // Todo
-    
+
+    // begin: whsu 2020.04.10
+    int toArrange = 1;      // 需要被安排的火车
+    int in_index = 0;       // 将被安排的火车
+
+    while (toArrange<=num) {
+        // first find the queue containing the train to be arranged
+        int found = 0;
+        for (int i=0 ; i<usedQueue ; i++) if (GetFront(railQueue[i])==toArrange) {
+            found = 1;
+            DeQueue(railQueue[i]);
+            toArrange++;
+            break;
+        }
+        
+        // if not found, push a train into the closest queue
+        if (!found) {
+            int closestQueue = findClosestQueue(railQueue, usedQueue, out[in_index], num);
+
+            if (closestQueue==-1) {
+                usedQueue++;
+                railQueue[usedQueue-1] = InitQueue();
+                EnQueue(railQueue[usedQueue-1], out[in_index]);
+            }
+            else EnQueue(railQueue[closestQueue], out[in_index]);
+
+            in_index++;
+        }
+    }
+
+    for (int i=0 ; i<usedQueue ; i++) free(railQueue[i]);
+
+    // end: whsu 2020.04.10
+
     return usedQueue;
 }
 
@@ -226,27 +319,65 @@ int main()
     
     int trainNum;
     int count = 0;
-    freopen("Train.in", "r", stdin);
+    freopen("data/TestTrain.in", "r", stdin);
     
     while(scanf("%d",&trainNum)!=EOF){
         count++;
         int trainIn[trainNum];
         int trainOut[trainNum];
+
+        int validate[trainNum+1];
+        int validFlag1 = 1, validFlag2 = 1;
+        
+        memset(validate, 0, sizeof(int)*(trainNum+1));
         for(int i = 0;i < trainNum;i++){
             scanf("%d",&trainIn[i]);
+            if (trainIn[i]<1 || trainNum<trainIn[i]) {
+                printf("Input sequence 1 error: %d is a not valid id\n", trainIn[i]);
+                validFlag1 = 0;
+            }
+            else {
+                validate[trainIn[i]] = 1;
+            }
         }
+
+        for (int i=1 ; i<=trainNum ; i++) if (!validate[i]) {
+            printf("Sequence 1 incomplete!\n");
+            validFlag1 = 0;
+            break;
+        }
+
+        memset(validate, 0, sizeof(int)*(trainNum+1));
         for(int i = 0;i < trainNum;i++){
             scanf("%d",&trainOut[i]);
+            if (trainOut[i]<1 || trainNum<trainOut[i]) {
+                printf("Input sequence 2 error: %d is a not valid id!\n", trainOut[i]);
+                validFlag2 = 0;
+            }
+            else {
+                validate[trainOut[i]] = 1;
+            }
         }
+
+        for (int i=1 ; i<=trainNum ; i++) if (!validate[i]) {
+            printf("Sequence 2 incomplete!\n");
+            validFlag2 = 0;
+            break;
+        }
+
         printf("====Case %d====\n",count);
         // 实验内容1
-        if(SeqLegal(trainIn,trainOut,trainNum)){
-            printf("The output train sequence is Possible\n");
-        }else{
-            printf("The output train sequence is impossible\n");
+        if (validFlag1 && validFlag2) {
+            if(SeqLegal(trainIn,trainOut,trainNum)){
+                printf("The output train sequence is Possible\n");
+            } else {
+                printf("The output train sequence is impossible\n");
+            }
         }
+        else printf("Subtask1: Sequence Error: Can't judge whether the output sequence is possible or not.\n");
         // 实验内容2
-        printf("To recover the order, %d buffer queue is needed:\n",minBufferQueue(trainOut, trainNum));
+        if (validFlag2) printf("To recover the order, %d buffer queue is needed.\n",minBufferQueue(trainOut, trainNum));
+        else printf("Subtask2: Sequence Error: Can't calculate the minimal buffer needed.\n");
 
     }
     fclose(stdin);
