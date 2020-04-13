@@ -35,7 +35,7 @@ typedef struct LinkStack{
     StackNode* top;
     // begin: whsu 2020.04.10
     StackNode *head;
- // end: whsu 2020.04.10
+    // end: whsu 2020.04.10
 }LinkStack;
 
 LinkStack* InitStack(){
@@ -104,6 +104,18 @@ int GetTop(LinkStack* thisStack){
 
 // end: whsu 2020.04.10
 
+// begin: whsu 2020.04.12
+// destroy stack and all of its nodes
+LinkStack *DestroyStack(LinkStack *thisStack) {
+    if (!thisStack) return NULL;  // else
+
+    while (!StackEmpty(thisStack)) Pop(thisStack);
+    free(thisStack->head);
+    free(thisStack);
+    
+    return NULL;
+}
+// end: whsu 2020.04.12
 
 
 int SeqLegal(int in[],int out[],int num){
@@ -130,6 +142,12 @@ int SeqLegal(int in[],int out[],int num){
             out_index++;
         }
     }
+
+    // begin: whsu 2020.04.12
+    // comment: for safety reasons...
+    s_in = DestroyStack(s_in);
+    s_station = DestroyStack(s_station);
+    // begin: whsu 2020.04.12
 
     return 1;
     // end: whsu 2020.04.10
@@ -240,6 +258,18 @@ int GetRear(LinkQueue *thisQueue){
     // end: whsu 2020.04.10
 }
 
+// begin: whsu 2020.04.12
+// destroy queue and all of its nodes
+LinkQueue *DestroyQueue(LinkQueue *thisQueue) {
+    if (!thisQueue) return NULL;  // else
+
+    while (!QueueEmpty(thisQueue)) DeQueue(thisQueue);
+    free(thisQueue->head);
+    free(thisQueue);
+    
+    return NULL;
+}
+// end: whsu 2020.04.12
 
 int findClosestQueue(LinkQueue *railQueue[],int usedQueue,int curTrain, int num){
     /**  找到最合适的火车轨道 */
@@ -279,8 +309,8 @@ int minBufferQueue(int out[],int num){
     int usedQueue = 0;      //已使用的队列数
 
     // begin: whsu 2020.04.10
-    int toArrange = 1;      // 需要被安排的火车
-    int in_index = 0;       // 将被安排的火车
+    int toArrange = 1;      // 需要被安排出站的火车
+    int in_index = 0;       // 将被安排进站的火车
 
     while (toArrange<=num) {
         // first find the queue containing the train to be arranged
@@ -307,7 +337,10 @@ int minBufferQueue(int out[],int num){
         }
     }
 
-    for (int i=0 ; i<usedQueue ; i++) free(railQueue[i]);
+    // begin: whsu 2020.04.12
+    // comment: security concerns~
+    for (int i=0 ; i<usedQueue ; i++) railQueue[i] = DestroyQueue(railQueue[i]);
+    // end: whsu 2020.04.12
 
     // end: whsu 2020.04.10
 
