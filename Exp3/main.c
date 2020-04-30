@@ -8,12 +8,12 @@
 
 // meta: modified brakets and whitespaces
 
-int FLAG = 0;  //±êÊ¶ÊÇ·ñÄÜÓÉºóÐòÖÐÐò½¨Á¢¶þ²æÊ÷
+int FLAG = 0;  //ï¿½ï¿½Ê¶ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Éºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 typedef struct Node {
     char data;
     struct Node *lchild, *rchild;
-} TreeNode, *BiTree; //¶¨ÒåÊ÷½ÚµãµÄ½á¹¹Ìå
+} TreeNode, *BiTree; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Ä½á¹¹ï¿½ï¿½
 
 // begin whsu 2020.04.24
 typedef struct {
@@ -23,7 +23,7 @@ typedef struct {
 // end whsu
 
 // begin whsu 2020.04.24
-TreeNode *createTreeNode(char newData) { //½¨Á¢Ò»¸öÐÂ½áµã
+TreeNode *createTreeNode(char newData) { //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Â½ï¿½ï¿½
     TreeNode *bt = (TreeNode*)malloc(sizeof(TreeNode));
     bt->data = newData;
     bt->lchild = bt->rchild = NULL;
@@ -63,7 +63,7 @@ BiTree destroyBiTree(BiTree tree) {
 
 // begin whsu 2020.04.24: template from shiyan2
 typedef struct QueueNode{
-    /** ¶ÓÁÐ½Úµã */
+    /** ï¿½ï¿½ï¿½Ð½Úµï¿½ */
     nodeInfo_t data;
     struct QueueNode* next;
     struct QueueNode* prev;
@@ -80,7 +80,7 @@ QueueNode *newQueueNode(nodeInfo_t new_data, QueueNode *new_prev) {
 // end: whsu 2020.04.10
 
 typedef struct Queue{
-    /** ¶ÓÁÐ */
+    /** ï¿½ï¿½ï¿½ï¿½ */
     QueueNode *head;
     QueueNode *rear;
 } LinkQueue;
@@ -89,7 +89,7 @@ typedef struct Queue{
 // comment: let it be more c++!
 
 LinkQueue* InitQueue(){
-    /** ³õÊ¼»¯¶ÓÁÐ */
+    /** ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     LinkQueue* thisQueue = (LinkQueue*) malloc(sizeof(LinkQueue));
 
     // begin: whsu 2020.04.10
@@ -104,12 +104,12 @@ LinkQueue* InitQueue(){
 }
 
 int QueueEmpty(LinkQueue* thisQueue){
-    /** ÅÐ¶Ï¶ÓÁÐÊÇ·ñÎª¿Õ */
+    /** ï¿½Ð¶Ï¶ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ */
     return (thisQueue->head == thisQueue->rear);
 }
 
 int EnQueue(LinkQueue *thisQueue, nodeInfo_t ele){
-    /** Èë¶Ó */
+    /** ï¿½ï¿½ï¿½ */
     QueueNode *newRear = newQueueNode(ele, thisQueue->rear);
 
     if (!newRear) return 0;  // else
@@ -153,7 +153,7 @@ LinkQueue *DestroyQueue(LinkQueue *thisQueue) {
 
 
 
-void preOrderTraverse(BiTree p) {  //º¯Êý¹¦ÄÜ£ºÇ°Ðò±éÀú
+void preOrderTraverse(BiTree p) {  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½
     // begin whsu 2020.04.24
     if (!p) return;
 
@@ -163,7 +163,7 @@ void preOrderTraverse(BiTree p) {  //º¯Êý¹¦ÄÜ£ºÇ°Ðò±éÀú
     // end whsu
 }
 
-void inOrderTraverse(BiTree p) {  //º¯Êý¹¦ÄÜ£ºÖÐÐò±éÀú
+void inOrderTraverse(BiTree p) {  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     // begin whsu 2020.04.24
     if (!p) return;
 
@@ -173,7 +173,7 @@ void inOrderTraverse(BiTree p) {  //º¯Êý¹¦ÄÜ£ºÖÐÐò±éÀú
     // end whsu
 }
 
-void postOrderTraverse(BiTree p) {  //º¯Êý¹¦ÄÜ£ººóÐò±éÀú
+void postOrderTraverse(BiTree p) {  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     // begin whsu 2020.04.24
     if (!p) return;
 
@@ -184,19 +184,18 @@ void postOrderTraverse(BiTree p) {  //º¯Êý¹¦ÄÜ£ººóÐò±éÀú
 }
 
 result_t PostInCreate(char post[],int s1,int e1,char in[],int s2,int e2) {
-//º¯Êý¹¦ÄÜ£º¸ù¾ÝºóÐòÓëÖÐÐòÐòÁÐ¹¹Ôì¶þ²æÊ÷£¬²¢·µ»Ø¸ù½Úµã
-//²ÎÊýËµÃ÷£ºpost[]ÎªºóÐòÐòÁÐ£¬s1,e1ÎªºóÐòµÄµÚÒ»ºÍ×îºóÒ»¸ö½ÚµãÏÂ±ê£¬in[]ÎªÖÐÐòÐòÁÐ£¬s2,e2ÎªÖÐÐòµÄµÚÒ»ºÍ×îºóÒ»¸ö½ÚµãÏÂ±ê¡£
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½Ýºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½Úµï¿½
+//ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½post[]Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½s1,e1Îªï¿½ï¿½ï¿½ï¿½Äµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµï¿½ï¿½Â±ê£¬in[]Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½s2,e2Îªï¿½ï¿½ï¿½ï¿½Äµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµï¿½ï¿½Â±ê¡£
     // begin whsu 2020.04.24
-    // todo: modify memory management in failed attempts
     result_t r;
     r.flag = 0, r.tree = NULL;
     char thisRoot = post[e1];
 
     if (s1<e1) {
-        int *trials = malloc(sizeof(int)*(e1-s1+1));
+        int *trials = (int*)malloc(sizeof(int)*(e1-s1+1));
         memset(trials, -1, sizeof(int)*(e1-s1+1));
 
-        int i=0;
+        int i=0, success_flag=0;
         for (int j=e2 ; j>=s2 ; j--) if (in[j]==thisRoot) trials[i++] = j;
 
         i=0;
@@ -211,16 +210,28 @@ result_t PostInCreate(char post[],int s1,int e1,char in[],int s2,int e2) {
             else res_l = PostInCreate(post, s1, e1-e2+trials[i]-1, in, s2, trials[i]-1);
 
             if (res_r.flag&&res_l.flag) {
+                if (success_flag) {  // detected two Bitree
+                    destroyBiTree(res_l.tree);
+                    destroyBiTree(res_r.tree);
+                    destroyBiTree(r.tree);
+                    r.flag = 0;
+                    r.tree = NULL;
+
+                    success_flag = 0;
+                    break;
+                } else {
+                    success_flag = 1;
+                }
+
                 r.flag = 1;
                 r.tree = createTreeNode(thisRoot);
                 r.tree->lchild = res_l.tree;
                 r.tree->rchild = res_r.tree;
-
-                break;
-            }  // else
-
-            if (res_l.flag) destroyBiTree(res_l.tree);
-            if (res_r.flag) destroyBiTree(res_r.tree);
+            } else {
+                if (res_l.flag) destroyBiTree(res_l.tree);
+                if (res_r.flag) destroyBiTree(res_r.tree);
+            }
+            
             i++;
         }
         free(trials);
@@ -230,6 +241,7 @@ result_t PostInCreate(char post[],int s1,int e1,char in[],int s2,int e2) {
             r.tree = createTreeNode(post[s1]);
         } 
     }
+    
     return r;
     // end whsu
 }
@@ -276,8 +288,8 @@ void countLeafWidth(int *leafNum, int *width, BiTree tree) {
 // end whsu
 
 int isEquivalent(BiTree bt1,BiTree bt2) {
-    //º¯Êý¹¦ÄÜ£ºÅÐ¶ÏÁ½Ê÷ÊÇ·ñµÈ¼Û
-    //²ÎÊýËµÃ÷£ºbt1:µÚÒ»¸ö¶þ²æÊ÷£¬bt2:µÚ¶þ¸ö¶þ²æÊ÷
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½È¼ï¿½
+    //ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½bt1:ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bt2:ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     // begin whsu 2020.04.24
     if ((!bt1 && !bt2)) return 1;
@@ -288,7 +300,7 @@ int isEquivalent(BiTree bt1,BiTree bt2) {
 }
 
 void task1(BiTree bt) {
-    //ÈÎÎñ1£ºÊµÏÖ¶þ²æÊ÷ÏÈÐò¡¢ÖÐÐò¡¢ºóÐò±éÀú
+    //ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Êµï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò¡¢ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     printf("start task (1) Create Tree in PreOrder\n");
     printf("preOrderTraverse\n");
     preOrderTraverse(bt);
@@ -302,18 +314,18 @@ void task1(BiTree bt) {
 }
 
 void task2(BiTree *bt) {
-    //ÈÎÎñ2£ºÇëÀûÓÃPostInCreateº¯Êý¸ù¾ÝºóÐòÓëÖÐÐòÐòÁÐ¹¹Ôì¶þ²æÊ÷
-    //Ê¹ÓÃº¯Êý£ºPostInCreate
+    //ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PostInCreateï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    //Ê¹ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½PostInCreate
     printf("start task (2) Input the postOrder and inOrder Sequence ,Then build the tree\n");
-    char post[20];  //ºóÐòÐòÁÐ
-    char in[20];    //ÖÐÐòÐòÁÐ
-    int postlen;    //ºóÐòÐòÁÐ³¤¶È
-    int inlen;      //ÖÐÐòÐòÁÐ³¤¶È
+    char post[20];  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    char in[20];    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    int postlen;    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ï¿½ï¿½
+    int inlen;      //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ï¿½ï¿½
     printf("please input the postorder sequence\n");
     scanf("%s",post);
     printf("please input the inorder sequence\n");
     scanf("%s",in);
-    //ÇëÍêÉÆº¯Êý
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½
 
     postlen = strlen(post);
     inlen = strlen(in);
@@ -331,17 +343,17 @@ void task2(BiTree *bt) {
 }
 
 void task3(BiTree bt) {
-    //ÈÎÎñ3£º¼ÆËã¶þ²æÊ÷µÄÒ¶½Úµã¸öÊýºÍ¿í¶È¡££¨×¢£º¼ÆËã¿í¶ÈËùÐèµÄº¯ÊýÊÇ³öÌâÕßËùÉè¼Æ£¬ÈôÄãÄÜÓÐ¸üºÃµÄ°ì·¨µÃµ½¿í¶È£¬×Ô¼ºÉè¼ÆÒà¿É¡££©
-    //Ê¹ÓÃº¯Êý£ºcountLeafWidth
+    //ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½È¡ï¿½ï¿½ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½ï¿½Ç³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¸ï¿½ï¿½ÃµÄ°ì·¨ï¿½Ãµï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¡ï¿½ï¿½ï¿½
+    //Ê¹ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½countLeafWidth
     printf("start task (3) ------------------------------\n");
-    int height;     //Ê÷µÄ¸ß¶È
-    int leafNum = -1, width = -1;     //Ê÷µÄ¿í¶È£¬Ô¤ÉèÎª-1¡££¨¿í¶È£º¶þ²æÊ÷Ã¿Ò»²ã½ÚµãÊýµÄ×î´óÖµ£©
+    int height;     //ï¿½ï¿½ï¿½Ä¸ß¶ï¿½
+    int leafNum = -1, width = -1;     //ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½È£ï¿½Ô¤ï¿½ï¿½Îª-1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
 
     countLeafWidth(&leafNum, &width, bt);
 
     printf("The number of leaf nodes of the tree is:\n");
     printf("%d\n", leafNum);
-    //ÇëÍêÉÆº¯Êý
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½
 
     printf("The widht of the tree is:\n");
     printf("%d\n", width);
@@ -349,8 +361,8 @@ void task3(BiTree bt) {
 
 
 void task4(BiTree bt1,BiTree bt2){
-    //ÈÎÎñ4£ºÅÐ¶ÏÁ½¸ö¶þ²æÊ÷ÊÇ·ñµÈ¼Û
-    //Ê¹ÓÃº¯Êý£ºisEquivalent
+    //ï¿½ï¿½ï¿½ï¿½4ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½È¼ï¿½
+    //Ê¹ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½isEquivalent
     printf("start task (4) Are two Bitrees equivalent?\n");
     printf("%d\n",isEquivalent(bt1,bt2));
 
