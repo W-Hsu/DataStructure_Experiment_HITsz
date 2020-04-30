@@ -46,6 +46,16 @@ BiTree createBiTree() {
 
     return tree;
 }
+
+BiTree destroyBiTree(BiTree tree) {
+    if (tree) {
+        destroyBiTree(tree->lchild);
+        destroyBiTree(tree->rchild);
+        free(tree);
+    }
+
+    return NULL;
+} 
 // end whsu
 
 
@@ -121,6 +131,10 @@ int DeQueue(LinkQueue *thisQueue){
     free(del);
 
     return 1;
+}
+
+nodeInfo_t GetFront(LinkQueue *thisQueue){
+    return thisQueue->head->next->data;
 }
 
 LinkQueue *DestroyQueue(LinkQueue *thisQueue) {
@@ -202,29 +216,60 @@ result_t PostInCreate(char post[],int s1,int e1,char in[],int s2,int e2) {
                 r.tree->lchild = res_l.tree;
                 r.tree->rchild = res_r.tree;
 
-                free(trials);
                 break;
-            }
+            }  // else
 
+            if (res_l.flag) destroyBiTree(res_l.tree);
+            if (res_r.flag) destroyBiTree(res_r.tree);
             i++;
         }
+        free(trials);
     } else if (s1==e1) {
         if (post[s1]==in[s2]) {
             r.flag = 1;
             r.tree = createTreeNode(post[s1]);
-        }
+        } 
     }
     return r;
     // end whsu
 }
 
-// begin whsu 2020.04.24
+// begin whsu 2020.04.25
 void countLeafWidth(int *leafNum, int *width, BiTree tree) {
+    *leafNum = *width = 0;
+    if (!tree) return;
+
     LinkQueue *q = InitQueue();
-    nodeInfo_t tmp = {1, tree};
+    nodeInfo_t tmp;
+    tmp.tree = tree, tmp.flag = 1;
 
     EnQueue(q, tmp);
+    int now_depth = 0, now_width = 0, max_width = 0;
+    while (!QueueEmpty(q)) {
+        nodeInfo_t now = GetFront(q);
+        DeQueue(q);
 
+        // leaf
+        if (!now.tree->lchild && !now.tree->rchild) (*leafNum)++;
+
+        // width
+        if (now.flag==now_depth) {
+            now_width++;
+        } else {
+            now_depth = now.flag;
+            now_width = 1;
+        }
+
+        max_width = max_width<now_width ? now_width : max_width;
+
+        tmp.flag = now.flag+1;
+        tmp.tree = now.tree->lchild;
+        if (tmp.tree) EnQueue(q, tmp);
+        tmp.tree = now.tree->rchild;
+        if (tmp.tree) EnQueue(q, tmp);
+    }
+
+    *width = max_width;
 
     DestroyQueue(q);
 }
@@ -285,7 +330,7 @@ void task2(BiTree *bt) {
     }
 }
 
-void task3(BiTree bt){
+void task3(BiTree bt) {
     //任务3：计算二叉树的叶节点个数和宽度。（注：计算宽度所需的函数是出题者所设计，若你能有更好的办法得到宽度，自己设计亦可。）
     //使用函数：countLeafWidth
     printf("start task (3) ------------------------------\n");
@@ -298,7 +343,7 @@ void task3(BiTree bt){
     printf("%d\n", leafNum);
     //请完善函数
 
-    printf("The width of the tree is:\n");
+    printf("The widht of the tree is:\n");
     printf("%d\n", width);
 }
 
@@ -312,15 +357,17 @@ void task4(BiTree bt1,BiTree bt2){
 }
 int main() {
     // freopen("D:\\123.txt", "r", stdin);
+
     BiTree bt1,bt2;
     printf("Create Tree1 in PreOrder\n");
     bt1=createBiTree();
 
     task1(bt1);
     task2(&bt2);
-    // task3(bt2);
+    task3(bt2);
     task4(bt1,bt2);
+    bt1=destroyBiTree(bt1), bt2=destroyBiTree(bt2);
+    while(getchar()!='\n');
 
     return 0;
 }
-
